@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a54c3bf81c82abe9e7a4da27dc09014f04d448759be3aafdced2999d418b1223
+-- hash: 6a54f3f5d77b958e91911af58e424fd1f03fd92bea77b5930b2529fa80e72cf1
 
 name:           Scoria
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      AST
       Lib
   other-modules:
       Paths_Scoria
@@ -46,6 +47,7 @@ executable Scoria-exe
   build-depends:
       Scoria
     , base >=4.7 && <5
+    , type-level-numbers >= 0.1.1.1 && < 0.1.2 
   default-language: Haskell2010
 
 test-suite Scoria-test
