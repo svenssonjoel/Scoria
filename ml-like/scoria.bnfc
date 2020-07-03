@@ -1,0 +1,55 @@
+
+token Boolean  {"True"} | {"False"} ;
+token UIdent (upper (letter | digit | '_')*) ;
+
+Prog. Program  ::= [Def] ;
+
+-- definitions
+
+Define.   Def ::= Ident "=" Exp ;
+Deftype.  Def ::= Ident ":" Type ;
+Data.     Def ::= "data" UIdent "=" [DataCon] ;
+DExp.     Def ::= Exp ;
+
+terminator Def "" ;
+
+-- constants
+CInt.   Const ::= Integer ;
+CFloat. Const ::= Double ;
+CBool.  Const ::= Boolean ;
+
+-- expressions
+
+EAdd.   Exp  ::= Exp "+" Exp1 ;
+EMul.   Exp1 ::= Exp1 "*" Exp2 ;
+EConst. Exp2 ::= Const ;
+EVar.   Exp2 ::= Ident ;
+ELam.   Exp2 ::= "lambda" [Ident] "->" Exp ;
+EMatch. Exp2 ::= "match" [PatMatch] ;
+_.      Exp3 ::= "(" Exp ")" ;
+
+coercions Exp 3 ;
+
+-- Pattern matching
+SPConst. SimplePat ::= Const ;
+SPIdent. SimplePat ::= Ident ;
+PSimple. PatMatch ::= SimplePat "->" Exp ;
+PData.   PatMatch ::= Ident [SimplePat] "->" Exp ;
+
+separator SimplePat "" ;
+separator PatMatch  "|" ;
+
+-- types
+TLam.  Type  ::= Type1 "->" Type ;
+TInt.  Type1 ::= "Int" ;
+TBool. Type1 ::= "Bool" ;
+TVar.  Type1 ::= Ident ;
+
+coercions Type 1 ;
+
+separator Ident "" ;
+separator Type "" ;
+
+-- datatype constructor
+Cnstr. DataCon ::= UIdent [Type] ;
+separator DataCon "|" ;
